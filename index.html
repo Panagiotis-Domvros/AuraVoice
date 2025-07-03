@@ -34,18 +34,14 @@
             display: flex; flex-direction: column;
         }
 
-        /* UPDATED: Image is now twice the size */
-        .corner-logo {
-            position: absolute;
-            top: 15px; /* Adjusted for better placement */
-            right: 15px; /* Adjusted for better placement */
-            width: 120px; /* Was 60px */
-            height: 120px; /* Was 60px */
+        .centered-logo {
+            width: 60px; /* Returned to original size */
+            height: 60px;
             border-radius: 50%;
             object-fit: cover;
-            border: 3px solid var(--accent-colour); /* Slightly thicker border */
-            z-index: 100;
-            box-shadow: 0 0 20px rgba(0,0,0,0.6);
+            border: 2px solid var(--accent-colour);
+            margin-bottom: 15px; /* Space below the logo */
+            flex-shrink: 0; /* Prevent shrinking */
         }
 
         .screen {
@@ -64,15 +60,16 @@
         .results-page { display: none; width: 100%; height: 100%; flex-direction: column; justify-content: center; align-items: center; }
         .results-page.active { display: flex; }
         
-        h1 { font-weight: 900; font-size: clamp(2em, 10vw, 3em); color: var(--accent-colour); margin-bottom: 10px; }
-        h2 { font-weight: 700; font-size: clamp(1.5em, 8vw, 2em); margin-bottom: 15px; }
-        h3 { font-weight: 700; color: var(--accent-colour); border-top: 1px solid #333; padding-top: 20px; margin-top: 20px; }
-        p { color: var(--text-secondary); font-size: clamp(1em, 4vw, 1.1em); line-height: 1.6; max-width: 90%; }
+        /* Reduced Font Sizes */
+        h1 { font-weight: 900; font-size: clamp(1.8em, 8vw, 2.5em); color: var(--accent-colour); margin-bottom: 10px; }
+        h2 { font-weight: 700; font-size: clamp(1.3em, 6vw, 1.8em); margin-bottom: 15px; }
+        h3 { font-weight: 700; color: var(--accent-colour); border-top: 1px solid #333; padding-top: 15px; margin-top: 15px; font-size: clamp(1.1em, 5vw, 1.3em); }
+        p { color: var(--text-secondary); font-size: clamp(0.9em, 3.5vw, 1em); line-height: 1.6; max-width: 90%; }
         .free-notice { font-weight: 700; color: var(--text-primary); margin-top: 10px; }
 
         .button {
             background: linear-gradient(90deg, #6200ee, var(--accent-colour));
-            color: #fff; font-size: clamp(1.1em, 5vw, 1.2em); font-weight: 700;
+            color: #fff; font-size: clamp(1em, 4.5vw, 1.1em); font-weight: 700;
             padding: 15px 30px; border-radius: 50px; border: none;
             cursor: pointer; margin-top: 20px; flex-shrink: 0;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -82,7 +79,7 @@
         .nav-button { background: transparent; border: 2px solid var(--accent-colour-light); color: var(--accent-colour-light); padding: 10px 25px; }
         .nav-container { display: flex; justify-content: space-between; width: 90%; margin-top: auto; padding-bottom: 20px; }
         
-        #credits { font-size: 0.85em; color: #888; position: absolute; bottom: 20px; left: 0; right: 0; padding: 0 10px; }
+        #credits { font-size: 0.8em; color: #888; margin-top: 20px; flex-shrink: 0; padding: 0 10px; }
         #prompt-box { border: 2px solid var(--accent-colour); border-radius: 15px; padding: 20px; margin: 20px 0; font-style: italic; }
         #record-button { width: 100px; height: 100px; border-radius: 50%; background-color: var(--record-colour); border: 5px solid #fff; cursor: pointer; margin-top: 20px; box-shadow: 0 0 20px rgba(255, 77, 77, 0.5); }
         #record-button::before { content: '🎤'; font-size: 3em; line-height: 90px; }
@@ -107,19 +104,17 @@
         #reveal-name { opacity: 0; transform: scale(0.8); animation: revealName 1.5s forwards ease-out; animation-delay: 0.5s; }
         @keyframes revealName { to { opacity: 1; transform: scale(1); } }
         
-        .attribute { width: 90%; margin: 5px 0; text-align: left; }
-        .attr-name { display: inline-block; width: 120px; }
-        .progress-bar { display: inline-block; width: calc(100% - 150px); background: #333; height: 20px; border-radius: 10px; overflow: hidden; }
+        .attribute { width: 90%; margin: 5px 0; text-align: left; font-size: 0.9em; }
+        .attr-name { display: inline-block; width: 110px; }
+        .progress-bar { display: inline-block; width: calc(100% - 140px); background: #333; height: 20px; border-radius: 10px; overflow: hidden; }
         .progress-fill { height: 100%; background: linear-gradient(90deg, #6200ee, var(--accent-colour)); transition: width 1s ease-in-out 0.3s; }
 
     </style>
 </head>
 <body>
     <div class="app-container">
-
-        <img src="pirate.jpg" alt="Corner Logo" class="corner-logo">
-
         <div id="welcome-screen" class="screen active">
+            <img src="pirate.jpg" alt="Logo" class="centered-logo">
             <h1>AuraVoice</h1>
             <p>Your voice is more than sound—it's a unique signature. Let's analyse your vocal patterns to reveal your core communication archetype.</p>
             <p class="free-notice">This app is 100% free.</p>
@@ -129,12 +124,14 @@
 
         <div id="analysis-screen" class="screen">
             <div id="analysis-content">
+                <img src="pirate.jpg" alt="Logo" class="centered-logo">
                 <p>To calibrate the analyser, please read the following phrase aloud:</p>
                 <div id="prompt-box"></div>
                 <p>Press the button to record.</p>
                 <div id="record-button"></div>
             </div>
             <div id="recording-container">
+                <img src="pirate.jpg" alt="Logo" class="centered-logo">
                 <p id="recording-prompt-text" style="font-style: italic; color: var(--accent-colour-light)"></p>
                 <div id="wave-visualizer">
                     <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
@@ -144,11 +141,13 @@
         </div>
         
         <div id="reveal-screen" class="screen">
+            <img src="pirate.jpg" alt="Logo" class="centered-logo">
             <p>Your voice type is that of...</p>
             <h1 id="reveal-name" class="revealed-name"></h1>
         </div>
 
         <div id="results-screen" class="screen">
+            <img src="pirate.jpg" alt="Logo" class="centered-logo">
             <div id="results-page-1" class="results-page">
                 <h2 id="result-title"></h2>
                 <p id="core-statement"></p>
