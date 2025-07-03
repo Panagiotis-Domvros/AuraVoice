@@ -65,17 +65,17 @@
         .results-page {
             display: none; width: 100%;
             flex-direction: column; align-items: center;
-            justify-content: flex-start; /* Content starts from top */
+            justify-content: center; /* Vertically center content on each small page */
             flex-grow: 1;
-            overflow-y: auto; /* This makes the page itself scrollable */
+            overflow-y: auto; 
             -webkit-overflow-scrolling: touch;
         }
         .results-page.active { display: flex; }
         
         h1 { font-weight: 900; font-size: clamp(1.8em, 8vw, 2.5em); color: var(--accent-colour); margin-bottom: 10px; }
         h2 { font-weight: 700; font-size: clamp(1.3em, 6vw, 1.8em); margin-bottom: 15px; }
-        h3 { font-weight: 700; color: var(--accent-colour); border-top: 1px solid #333; padding-top: 15px; margin-top: 20px; font-size: clamp(1.1em, 5vw, 1.3em); }
-        p { color: var(--text-secondary); font-size: clamp(0.9em, 3.5vw, 1em); line-height: 1.6; max-width: 90%; margin-bottom: 10px; }
+        h3 { font-weight: 700; color: var(--accent-colour); padding-top: 15px; margin-top: 15px; font-size: clamp(1.1em, 5vw, 1.3em); }
+        p { color: var(--text-secondary); font-size: clamp(0.9em, 3.5vw, 1em); line-height: 1.6; max-width: 90%; margin-top: 10px; }
         .free-notice { font-weight: 700; color: var(--text-primary); margin-top: 10px; }
 
         .button {
@@ -88,7 +88,7 @@
         .button:hover { transform: scale(1.05); box-shadow: 0 0 25px rgba(187, 134, 252, 0.6); }
 
         .nav-button { background: transparent; border: 2px solid var(--accent-colour-light); color: var(--accent-colour-light); padding: 10px 25px; }
-        .nav-container { display: flex; justify-content: space-between; width: 90%; margin-top: 15px; padding-bottom: 10px; flex-shrink: 0; }
+        .nav-container { display: flex; justify-content: space-between; width: 90%; margin-top: auto; padding-top: 20px; flex-shrink: 0; }
         
         #credits { font-size: 0.8em; color: #888; margin-top: auto; padding-top: 20px; flex-shrink: 0; }
         #prompt-box { border: 2px solid var(--accent-colour); border-radius: 15px; padding: 20px; margin: 20px 0; font-style: italic; }
@@ -158,21 +158,33 @@
         </div>
 
         <div id="results-screen" class="screen">
-            <div id="results-page-1" class="results-page">
-                <img src="pirate.jpg" alt="Logo" class="centered-logo">
-                <h2 id="result-title"></h2>
-                <p id="core-statement"></p>
-                <div class="attribute"><span class="attr-name">Empathy</span><div class="progress-bar"><div id="empathy-bar" class="progress-fill"></div></div></div>
-                <div class="attribute"><span class="attr-name">Skills</span><div class="progress-bar"><div id="skills-bar" class="progress-fill"></div></div></div>
-                <div class="attribute"><span class="attr-name">Independence</span><div class="progress-bar"><div id="independence-bar" class="progress-fill"></div></div></div>
-                <div class="attribute"><span class="attr-name">Wisdom</span><div class="progress-bar"><div id="wisdom-bar" class="progress-fill"></div></div></div>
-                <div class="attribute"><span class="attr-name">Creativity</span><div class="progress-bar"><div id="creativity-bar" class="progress-fill"></div></div></div>
-            </div>
-            <div id="results-page-2" class="results-page">
-                <h3>Your Superpower</h3><p id="result-superpower"></p>
-                <h3>How You Connect</h3><p id="result-connect"></p>
-                <h3>Potential Blind Spots</h3><p id="result-blindspot"></p>
-                <h3>Archetypal Examples</h3><p id="result-examples"></p>
+            <div id="results-content" style="display: flex; flex-direction: column; align-items: center; flex-grow: 1; width: 100%;">
+                <div id="results-page-1" class="results-page">
+                    <img src="pirate.jpg" alt="Logo" class="centered-logo">
+                    <h2 id="result-title"></h2>
+                    <p id="core-statement"></p>
+                    <div class="attribute"><span class="attr-name">Empathy</span><div class="progress-bar"><div id="empathy-bar" class="progress-fill"></div></div></div>
+                    <div class="attribute"><span class="attr-name">Skills</span><div class="progress-bar"><div id="skills-bar" class="progress-fill"></div></div></div>
+                    <div class="attribute"><span class="attr-name">Independence</span><div class="progress-bar"><div id="independence-bar" class="progress-fill"></div></div></div>
+                    <div class="attribute"><span class="attr-name">Wisdom</span><div class="progress-bar"><div id="wisdom-bar" class="progress-fill"></div></div></div>
+                    <div class="attribute"><span class="attr-name">Creativity</span><div class="progress-bar"><div id="creativity-bar" class="progress-fill"></div></div></div>
+                </div>
+                <div id="results-page-2" class="results-page">
+                    <img src="pirate.jpg" alt="Logo" class="centered-logo">
+                    <h3>Your Superpower</h3><p id="result-superpower"></p>
+                </div>
+                <div id="results-page-3" class="results-page">
+                    <img src="pirate.jpg" alt="Logo" class="centered-logo">
+                    <h3>How You Connect</h3><p id="result-connect"></p>
+                </div>
+                <div id="results-page-4" class="results-page">
+                    <img src="pirate.jpg" alt="Logo" class="centered-logo">
+                    <h3>Potential Blind Spots</h3><p id="result-blindspot"></p>
+                </div>
+                <div id="results-page-5" class="results-page">
+                    <img src="pirate.jpg" alt="Logo" class="centered-logo">
+                    <h3>Archetypal Examples</h3><p id="result-examples"></p>
+                </div>
             </div>
             <div class="nav-container">
                 <button id="back-btn" class="button nav-button" style="visibility: hidden;">Back</button>
@@ -254,7 +266,7 @@
             }
 
             function updateResultPage() {
-                const totalPages = 2; // Now only 2 pages
+                const totalPages = 5; // Now 5 pages
                 for (let i = 1; i <= totalPages; i++) {
                     document.getElementById(`results-page-${i}`).classList.remove('active');
                 }
@@ -269,7 +281,7 @@
             }
 
             elements.nextBtn.addEventListener('click', () => {
-                if (currentResultPage < 2) { currentResultPage++; updateResultPage(); }
+                if (currentResultPage < 5) { currentResultPage++; updateResultPage(); }
             });
 
             elements.backBtn.addEventListener('click', () => {
