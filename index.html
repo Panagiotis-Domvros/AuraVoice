@@ -17,12 +17,19 @@
             --record-colour: #ff4d4d;
         }
 
+        /* --- CSS Reset for Mobile Consistency --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        /* --- End Reset --- */
+
         html { height: 100%; }
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--primary-bg);
             color: var(--text-primary);
-            margin: 0; padding: 0;
             height: 100%; width: 100%;
             overflow: hidden;
         }
@@ -35,21 +42,20 @@
         }
 
         .centered-logo {
-            width: 60px; /* Returned to original size */
-            height: 60px;
-            border-radius: 50%;
-            object-fit: cover;
+            width: 60px; height: 60px;
+            border-radius: 50%; object-fit: cover;
             border: 2px solid var(--accent-colour);
-            margin-bottom: 15px; /* Space below the logo */
-            flex-shrink: 0; /* Prevent shrinking */
+            margin-bottom: 15px; flex-shrink: 0;
         }
 
         .screen {
             padding: 20px; box-sizing: border-box;
             display: none; flex-direction: column;
-            justify-content: center; align-items: center;
-            flex: 1 1 auto;
-            overflow-y: auto; -webkit-overflow-scrolling: touch;
+            align-items: center;
+            flex-grow: 1;
+            overflow-x: hidden;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
             text-align: center;
             animation: fadeIn 0.5s ease-in-out;
         }
@@ -57,10 +63,16 @@
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         .screen.active { display: flex; }
-        .results-page { display: none; width: 100%; height: 100%; flex-direction: column; justify-content: center; align-items: center; }
+        
+        /* This ensures content inside the paginated results flows correctly */
+        .results-page {
+            display: none; width: 100%;
+            flex-direction: column; align-items: center;
+            justify-content: center;
+            flex-grow: 1; /* Allow this to take up space */
+        }
         .results-page.active { display: flex; }
         
-        /* Reduced Font Sizes */
         h1 { font-weight: 900; font-size: clamp(1.8em, 8vw, 2.5em); color: var(--accent-colour); margin-bottom: 10px; }
         h2 { font-weight: 700; font-size: clamp(1.3em, 6vw, 1.8em); margin-bottom: 15px; }
         h3 { font-weight: 700; color: var(--accent-colour); border-top: 1px solid #333; padding-top: 15px; margin-top: 15px; font-size: clamp(1.1em, 5vw, 1.3em); }
@@ -77,14 +89,14 @@
         .button:hover { transform: scale(1.05); box-shadow: 0 0 25px rgba(187, 134, 252, 0.6); }
 
         .nav-button { background: transparent; border: 2px solid var(--accent-colour-light); color: var(--accent-colour-light); padding: 10px 25px; }
-        .nav-container { display: flex; justify-content: space-between; width: 90%; margin-top: auto; padding-bottom: 20px; }
+        .nav-container { display: flex; justify-content: space-between; width: 90%; margin-top: auto; padding-top: 20px; }
         
-        #credits { font-size: 0.8em; color: #888; margin-top: 20px; flex-shrink: 0; padding: 0 10px; }
+        #credits { font-size: 0.8em; color: #888; margin-top: auto; padding-top: 20px; flex-shrink: 0; }
         #prompt-box { border: 2px solid var(--accent-colour); border-radius: 15px; padding: 20px; margin: 20px 0; font-style: italic; }
         #record-button { width: 100px; height: 100px; border-radius: 50%; background-color: var(--record-colour); border: 5px solid #fff; cursor: pointer; margin-top: 20px; box-shadow: 0 0 20px rgba(255, 77, 77, 0.5); }
         #record-button::before { content: '🎤'; font-size: 3em; line-height: 90px; }
 
-        #analysis-content, #recording-container { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; }
+        #analysis-content, #recording-container { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; flex-grow: 1; }
         #recording-container { display: none; }
 
         #wave-visualizer { display: flex; justify-content: center; align-items: center; height: 60px; margin-top: 20px; }
@@ -147,8 +159,8 @@
         </div>
 
         <div id="results-screen" class="screen">
-            <img src="pirate.jpg" alt="Logo" class="centered-logo">
             <div id="results-page-1" class="results-page">
+                <img src="pirate.jpg" alt="Logo" class="centered-logo">
                 <h2 id="result-title"></h2>
                 <p id="core-statement"></p>
                 <div class="attribute"><span class="attr-name">Empathy</span><div class="progress-bar"><div id="empathy-bar" class="progress-fill"></div></div></div>
@@ -158,10 +170,12 @@
                 <div class="attribute"><span class="attr-name">Creativity</span><div class="progress-bar"><div id="creativity-bar" class="progress-fill"></div></div></div>
             </div>
             <div id="results-page-2" class="results-page">
+                <img src="pirate.jpg" alt="Logo" class="centered-logo">
                 <h3>Your Superpower</h3><p id="result-superpower"></p>
                 <h3>How You Connect</h3><p id="result-connect"></p>
             </div>
             <div id="results-page-3" class="results-page">
+                <img src="pirate.jpg" alt="Logo" class="centered-logo">
                 <h3>Potential Blind Spots</h3><p id="result-blindspot"></p>
                 <h3>Archetypal Examples</h3><p id="result-examples"></p>
             </div>
