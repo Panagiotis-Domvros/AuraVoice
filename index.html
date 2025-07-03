@@ -53,9 +53,7 @@
             display: none; flex-direction: column;
             align-items: center;
             flex-grow: 1;
-            overflow-x: hidden;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
+            overflow: hidden; /* Parent screen doesn't scroll */
             text-align: center;
             animation: fadeIn 0.5s ease-in-out;
         }
@@ -64,19 +62,20 @@
 
         .screen.active { display: flex; }
         
-        /* This ensures content inside the paginated results flows correctly */
         .results-page {
             display: none; width: 100%;
             flex-direction: column; align-items: center;
-            justify-content: center;
-            flex-grow: 1; /* Allow this to take up space */
+            justify-content: flex-start; /* Content starts from top */
+            flex-grow: 1;
+            overflow-y: auto; /* This makes the page itself scrollable */
+            -webkit-overflow-scrolling: touch;
         }
         .results-page.active { display: flex; }
         
         h1 { font-weight: 900; font-size: clamp(1.8em, 8vw, 2.5em); color: var(--accent-colour); margin-bottom: 10px; }
         h2 { font-weight: 700; font-size: clamp(1.3em, 6vw, 1.8em); margin-bottom: 15px; }
-        h3 { font-weight: 700; color: var(--accent-colour); border-top: 1px solid #333; padding-top: 15px; margin-top: 15px; font-size: clamp(1.1em, 5vw, 1.3em); }
-        p { color: var(--text-secondary); font-size: clamp(0.9em, 3.5vw, 1em); line-height: 1.6; max-width: 90%; }
+        h3 { font-weight: 700; color: var(--accent-colour); border-top: 1px solid #333; padding-top: 15px; margin-top: 20px; font-size: clamp(1.1em, 5vw, 1.3em); }
+        p { color: var(--text-secondary); font-size: clamp(0.9em, 3.5vw, 1em); line-height: 1.6; max-width: 90%; margin-bottom: 10px; }
         .free-notice { font-weight: 700; color: var(--text-primary); margin-top: 10px; }
 
         .button {
@@ -89,7 +88,7 @@
         .button:hover { transform: scale(1.05); box-shadow: 0 0 25px rgba(187, 134, 252, 0.6); }
 
         .nav-button { background: transparent; border: 2px solid var(--accent-colour-light); color: var(--accent-colour-light); padding: 10px 25px; }
-        .nav-container { display: flex; justify-content: space-between; width: 90%; margin-top: auto; padding-top: 20px; }
+        .nav-container { display: flex; justify-content: space-between; width: 90%; margin-top: 15px; padding-bottom: 10px; flex-shrink: 0; }
         
         #credits { font-size: 0.8em; color: #888; margin-top: auto; padding-top: 20px; flex-shrink: 0; }
         #prompt-box { border: 2px solid var(--accent-colour); border-radius: 15px; padding: 20px; margin: 20px 0; font-style: italic; }
@@ -116,7 +115,7 @@
         #reveal-name { opacity: 0; transform: scale(0.8); animation: revealName 1.5s forwards ease-out; animation-delay: 0.5s; }
         @keyframes revealName { to { opacity: 1; transform: scale(1); } }
         
-        .attribute { width: 90%; margin: 5px 0; text-align: left; font-size: 0.9em; }
+        .attribute { width: 90%; margin: 8px 0; text-align: left; font-size: 0.9em; }
         .attr-name { display: inline-block; width: 110px; }
         .progress-bar { display: inline-block; width: calc(100% - 140px); background: #333; height: 20px; border-radius: 10px; overflow: hidden; }
         .progress-fill { height: 100%; background: linear-gradient(90deg, #6200ee, var(--accent-colour)); transition: width 1s ease-in-out 0.3s; }
@@ -170,12 +169,8 @@
                 <div class="attribute"><span class="attr-name">Creativity</span><div class="progress-bar"><div id="creativity-bar" class="progress-fill"></div></div></div>
             </div>
             <div id="results-page-2" class="results-page">
-                <img src="pirate.jpg" alt="Logo" class="centered-logo">
                 <h3>Your Superpower</h3><p id="result-superpower"></p>
                 <h3>How You Connect</h3><p id="result-connect"></p>
-            </div>
-            <div id="results-page-3" class="results-page">
-                <img src="pirate.jpg" alt="Logo" class="centered-logo">
                 <h3>Potential Blind Spots</h3><p id="result-blindspot"></p>
                 <h3>Archetypal Examples</h3><p id="result-examples"></p>
             </div>
@@ -259,7 +254,7 @@
             }
 
             function updateResultPage() {
-                const totalPages = 3;
+                const totalPages = 2; // Now only 2 pages
                 for (let i = 1; i <= totalPages; i++) {
                     document.getElementById(`results-page-${i}`).classList.remove('active');
                 }
@@ -274,7 +269,7 @@
             }
 
             elements.nextBtn.addEventListener('click', () => {
-                if (currentResultPage < 3) { currentResultPage++; updateResultPage(); }
+                if (currentResultPage < 2) { currentResultPage++; updateResultPage(); }
             });
 
             elements.backBtn.addEventListener('click', () => {
